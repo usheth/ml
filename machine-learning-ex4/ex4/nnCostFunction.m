@@ -72,12 +72,22 @@ J = 0
 for i=1:m
   
   %feedforward
-  %a2 = sigmoid(X(i,:)*Theta1')
-  %a2 = [ones(1) a2]
-  %a3 = sigmoid([ones(1) sigmoid(X(i,:)*Theta1')]*Theta2')
+  %z2 = X(i,:)*Theta1'
+  %a2 = [ones(1) sigmoid(z2)]
+  %z3 = X(i,:)*Theta1'
+  %a3 = sigmoid([ones(1) sigmoid(z3)]*Theta2')
   
+  %y_k = y(i) == [1:num_labels]
   J += (1/m)*((-(y(i) == [1:num_labels])*(log((sigmoid([ones(1) sigmoid(X(i,:)*Theta1')]*Theta2'))'))) - ((1-(y(i) == [1:num_labels]))*log(1.-(sigmoid([ones(1) sigmoid(X(i,:)*Theta1')]*Theta2'))')))
   
+  %backprop
+  %delta_3 = (sigmoid([ones(1) sigmoid(z3)]*Theta2') - (y(i) == [1:num_labels]))
+  %delta_2 = ((Theta2'*(sigmoid([ones(1) sigmoid(z3)]*Theta2') - (y(i) == [1:num_labels]))').*sigmoidGradient([ones(1) X(i,:)*Theta1'])')(2:end)
+  %delta_2 = delta_2(2:end)
+  
+  %update
+  Theta1_grad += (((Theta2'*(sigmoid([ones(1) sigmoid(X(i,:)*Theta1')]*Theta2') - (y(i) == [1:num_labels]))').*sigmoidGradient([ones(1) X(i,:)*Theta1'])')(2:end))*X(i,:)
+  Theta2_grad += (sigmoid([ones(1) sigmoid(X(i,:)*Theta1')]*Theta2') - (y(i) == [1:num_labels]))'*[ones(1) sigmoid(X(i,:)*Theta1')]
   
   
 endfor
@@ -91,7 +101,8 @@ J  += (lambda/(2*m)) * (sum((Theta1.^2)(:)) + sum((Theta2.^2)(:)))
 
 
 
-
+Theta1_grad /= m 
+Theta2_grad /= m
 
 
 
