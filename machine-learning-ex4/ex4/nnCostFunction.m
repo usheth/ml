@@ -101,8 +101,8 @@ J  += (lambda/(2*m)) * (sum((Theta1.^2)(:)) + sum((Theta2.^2)(:)))
 
 
 
-Theta1_grad /= m 
-Theta2_grad /= m
+Theta1_grad = Theta1_grad/m + (lambda/m)*Theta1
+Theta2_grad = Theta2_grad/m + (lambda/m)*Theta2
 
 
 
