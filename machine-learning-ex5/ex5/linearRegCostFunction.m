@@ -23,8 +23,11 @@ grad = zeros(size(theta));
 
 
 
+J = sum((X*theta - y).^2)/(2*m) + + sum(theta(2:end).^2)*(lambda/(2*m))
 
-
+reg_grad = theta*(lambda/m)
+reg_grad(1) = 0
+grad = (1/m)*X'*(X*theta-y) + reg_grad
 
 
 
