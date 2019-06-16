@@ -56,6 +56,11 @@ x = zeros(n, 1);
 
 
 % =========================================================================
-    
+
+len = size(word_indices)(1)
+
+for i=1:len
+  x(word_indices(i)) = 1
+endfor
 
 end
