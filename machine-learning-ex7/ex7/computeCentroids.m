@@ -28,7 +28,14 @@ centroids = zeros(K, n);
 
 
 
-
+for i=1:K
+  point_index_one_shot = idx == i;
+  indices = find(point_index_one_shot == 1)
+  for j=1:length(indices)
+    centroids(i,:) += X(indices(j),:) 
+  endfor
+  centroids(i,:)./=length(indices)
+endfor
 
 
 
